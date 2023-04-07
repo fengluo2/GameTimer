@@ -79,8 +79,7 @@ class ChineseChessActivity : AppCompatActivity() {
                 countTimeStatus = CountTimeStatus.PAUSE
                 pauseTime = Date()
                 countDownTimer.cancel()
-                totalSecond = tempSecond + 1
-                tempSecond = totalSecond
+                tempSecond++
                 layout.setBackgroundColor(Color.GRAY)
             }
             CountTimeStatus.PAUSE -> {
@@ -146,6 +145,7 @@ class ChineseChessActivity : AppCompatActivity() {
         Log.d(TAG, "initListen: ")
 
         layout.setOnClickListener {
+            if (countTimeStatus != CountTimeStatus.RUNNING) return@setOnClickListener
             initConfig()
             stopCountTime()
             startCountTime()
@@ -158,7 +158,7 @@ class ChineseChessActivity : AppCompatActivity() {
 
     private fun initCountDownTime() {
         Log.d(TAG, "initCountDownTime: ")
-        countDownTimer = object : CountDownTimer(totalSecond * 1000L, 1000) {
+        countDownTimer = object : CountDownTimer(tempSecond * 1000L, 1000) {
             override fun onFinish() {
                 endTime = Date()
                 countTimeStatus = CountTimeStatus.READY
