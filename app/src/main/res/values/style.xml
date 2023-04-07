@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="maxHeight" format="reference|dimension" />
+    <attr name="widthHeightRatio" format="float" />
+    <attr name="limitHeightByWidth" format="boolean" />
+    <attr name="limitWidthByHeight" format="boolean" />
+
+    <declare-styleable name="SizeLimitView">
+        <!--最大高度-->
+        <attr name="maxHeight" />
+        <!--宽高比-->
+        <attr name="widthHeightRatio" />
+        <!--是否通过宽度限制高度比率-->
+        <attr name="limitHeightByWidth" />
+        <!--是否通过高度限制宽度比率-->
+        <attr name="limitWidthByHeight" />
+    </declare-styleable>
+</resources>
