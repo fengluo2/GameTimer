@@ -1,5 +1,7 @@
 package com.maple.gametimer
 
+@Suppress("SpellCheckingInspection")
 object Constant {
-    val DEFAULT_CHINESE_CHESS_TIME:Int = 30
+    const val DEFAULT_MODE_FTTPR_TIME: Int = 30
+    const val DEFAULT_MODE_FTTPR_STRICT_MODE: Boolean = false
 }

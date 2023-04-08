@@ -30,6 +30,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                outputFileName = getRootProject().name + "-" +
+                        defaultConfig.versionName + "-" +
+                        output.baseName + ".apk"
+            }
+        }
+    }
 }
 
 dependencies {

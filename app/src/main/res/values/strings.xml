@@ -2,8 +2,14 @@
     <string name="app_name">GameTimer</string>
     <string name="test">Test</string>
     <string name="setting">设置</string>
-    <string name="popup_windows_chinese_chess_setting_time_hint">每人每回合时间</string>
     <string name="popup_windows_chinese_chess_setting_time_label">时间:</string>
+    <string name="popup_windows_chinese_chess_setting_strict_mode_label">严格模式:</string>
+    <string name="popup_windows_chinese_chess_setting_time_hint">每人每回合时间</string>
     <string name="confirm_and_save">确认并保存</string>
     <string name="close">关闭</string>
+
+    <style name="GameTimer.TextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">#000</item>
+    </style>
 </resources>

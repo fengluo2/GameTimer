@@ -17,12 +17,14 @@ import com.maple.gametimer.adapter.entity.Game
 
 
 class MainActivity : AppCompatActivity() {
+    @Suppress("SpellCheckingInspection")
     private val listData = listOf(
         Game(
-            "chineseChess",
-            "中国象棋",
-            ChineseChessActivity::class.java,
-            R.layout.popup_windows_setting_chinese_chess
+            "FTTPR",
+            "固定回合时长",
+            "固定到每回合每人时间,适合中国象棋等",
+            ModeFTTPRActivity::class.java,
+            R.layout.popup_windows_setting_mod_fttpr
         )
     )
     private lateinit var listView: RecyclerView
@@ -62,8 +64,8 @@ class MainActivity : AppCompatActivity() {
                 setAlpha(0.5f)
 
                 when (item.uid) {
-                    "chineseChess" -> {
-                        com.maple.gametimer.activity.config.ChineseChessConfig(
+                    "FTTPR" -> {
+                        com.maple.gametimer.activity.config.ModeFTTPRConfig(
                             context
                         ).init(popupWindowView, item, popupWindow)
                     }
