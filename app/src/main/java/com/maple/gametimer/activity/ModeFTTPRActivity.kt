@@ -29,8 +29,12 @@ class ModeFTTPRActivity : AppCompatActivity() {
 
     private var totalSecond: Int = Constant.DEFAULT_MODE_FTTPR_TIME
     private var strictMode: Boolean = Constant.DEFAULT_MODE_FTTPR_STRICT_MODE
+    private var soundPerSecond: Boolean = Constant.DEFAULT_MODE_FTTPR_SOUND_PER_SECOND
+    private var paintedEggshell: Boolean = Constant.DEFAULT_MODE_FTTPR_PAINTED_EGGSHELL
 
     private var tempSecond: Int = 0
+    private var clickNumber: Int = 0
+    private var recoveryMode: Boolean = false
 
     private lateinit var startTime: Date
     private lateinit var pauseTime: Date
@@ -40,13 +44,14 @@ class ModeFTTPRActivity : AppCompatActivity() {
 
     private lateinit var layout: ConstraintLayout
     private lateinit var donutProgress: DonutProgress
-    private lateinit var soundPool: SoundPool
 
+    private lateinit var soundPool: SoundPool
     private lateinit var countDownTimer: CountDownTimer
 
     private val numberFormat: NumberFormat = NumberFormat.getInstance()
+    private val random: Random = Random()
 
-    private val soundList: HashMap<Int, Int> = HashMap()
+    private val soundMap: HashMap<String, Int> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,15 +92,28 @@ class ModeFTTPRActivity : AppCompatActivity() {
 
     private fun initSound() {
         val soundPoolBundle = SoundPool.Builder()
-        soundPoolBundle.setMaxStreams(3)
         val audioAttributesBuilder = AudioAttributes.Builder()
         audioAttributesBuilder.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        audioAttributesBuilder.setUsage(AudioAttributes.USAGE_GAME)
         soundPoolBundle.setAudioAttributes(audioAttributesBuilder.build())
+        soundPoolBundle.setMaxStreams(3)
         soundPool = soundPoolBundle.build()
 
+
+        soundMap["count_down_start"] =
+            soundPool.load(this, ResourceUtil.getRawId(this, "count_down_start"), 1)
+        for (i in 1..5) {
+            try {
+                soundMap["count_down_tick_$i"] =
+                    soundPool.load(this, ResourceUtil.getRawId(this, "count_down_tick_$i"), 1)
+            } catch (e: java.lang.Exception) {
+                Log.e(TAG, "initSound: " + e.message)
+            }
+        }
         for (i in 0..11) {
             try {
-                soundList[i] = soundPool.load(this, ResourceUtil.getRawId(this, "count_down_$i"), 1)
+                soundMap["count_down_$i"] =
+                    soundPool.load(this, ResourceUtil.getRawId(this, "count_down_$i"), 1)
             } catch (e: java.lang.Exception) {
                 Log.e(TAG, "initSound: " + e.message)
             }
@@ -157,7 +175,7 @@ class ModeFTTPRActivity : AppCompatActivity() {
         endTime = Date()
         AlertDialog.Builder(this).apply {
             setTitle("结束游戏?")
-            setMessage("游戏时长:" + formatDate(endTime.time - startTime.time))
+            setMessage("回合数:" + ((clickNumber + 1) / 2) + "\n游戏时长:" + formatDate(endTime.time - startTime.time))
             setCancelable(false)
             setPositiveButton("确认结束") { dialog, which ->
                 dialog.cancel()
@@ -239,8 +257,8 @@ class ModeFTTPRActivity : AppCompatActivity() {
             initConfig()
             countDownTimer.cancel()
             countDownTimer.start()
-            countTimeStatus = CountTimeStatus.RUNNING
         }
+        clickNumber += 1
     }
 
     private fun pauseCountTime() {
@@ -250,6 +268,7 @@ class ModeFTTPRActivity : AppCompatActivity() {
         countDownTimer.cancel()
         tempSecond++
         layout.setBackgroundColor(Color.GRAY)
+        soundMap["count_down_start"]?.let { soundPool.play(it, 1f, 1f, 1, 0, 1f) }
         countTimeStatus = CountTimeStatus.PAUSE
     }
 
@@ -260,6 +279,8 @@ class ModeFTTPRActivity : AppCompatActivity() {
         pauseTime = Date(0)
         countDownTimer.start()
         layout.setBackgroundColor(Color.WHITE)
+        soundMap["count_down_start"]?.let { soundPool.play(it, 1f, 1f, 1, 0, 1f) }
+        recoveryMode = true
         countTimeStatus = CountTimeStatus.RUNNING
     }
 
@@ -270,8 +291,58 @@ class ModeFTTPRActivity : AppCompatActivity() {
     }
 
     private fun countDownPromptSound() {
-        if (tempSecond > 11 || tempSecond < 0) return
-        soundList[tempSecond]?.let { soundPool.play(it, 1f, 1f, 1, 0, 1f) }
+        if (tempSecond == totalSecond || recoveryMode) {
+            soundMap["count_down_start"]?.let { soundPool.play(it, 1f, 1f, 1, 0, 1f) }
+            if (recoveryMode) recoveryMode = false
+        } else if (tempSecond > 11) {
+            if (soundPerSecond) soundMap["count_down_tick_" + (random.nextInt(5) + 1)]?.let {
+                soundPool.play(
+                    it,
+                    1f,
+                    1f,
+                    1,
+                    0,
+                    1f
+                )
+            }
+        } else if (tempSecond > 0) {
+            if (tempSecond == 11) {
+                if (paintedEggshell) {
+                    soundMap["count_down_$tempSecond"]?.let {
+                        soundPool.play(
+                            it,
+                            1f,
+                            1f,
+                            1,
+                            0,
+                            1f
+                        )
+                    }
+                } else if (soundPerSecond) {
+                    soundMap["count_down_tick_" + (random.nextInt(5) + 1)]?.let {
+                        soundPool.play(
+                            it,
+                            1f,
+                            1f,
+                            1,
+                            0,
+                            1f
+                        )
+                    }
+                }
+            } else {
+                soundMap["count_down_$tempSecond"]?.let {
+                    soundPool.play(
+                        it,
+                        1f,
+                        1f,
+                        1,
+                        0,
+                        1f
+                    )
+                }
+            }
+        }
     }
 
     private fun formatDate(date: Long): String {
