@@ -1,4 +1,4 @@
-package com.maple.gametimer.adapter.entity
+package com.maple.gameTimer.adapter.entity
 
 import androidx.annotation.LayoutRes
 

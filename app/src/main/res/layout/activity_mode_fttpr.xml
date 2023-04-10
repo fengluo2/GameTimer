@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.maple.gametimer.view.SizeLimitView
+    <com.maple.gameTimer.view.SizeLimitView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,13 +16,13 @@
         app:limitHeightByWidth="true"
         app:widthHeightRatio="1">
 
-        <com.maple.gametimer.view.DonutProgress
+        <com.maple.gameTimer.view.DonutProgress
             android:id="@+id/chinese_chess_activity_donut_progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             app:donut_progress="100" />
-    </com.maple.gametimer.view.SizeLimitView>
+    </com.maple.gameTimer.view.SizeLimitView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

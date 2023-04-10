@@ -1,9 +1,9 @@
-package com.maple.gametimer.view
+package com.maple.gameTimer.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import com.maple.gametimer.R
+import com.maple.gameTimer.R
 
 /**
  * 限制 View 的尺寸自定义 View
