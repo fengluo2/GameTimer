@@ -1,4 +1,4 @@
-package com.maple.gametimer.activity.config
+package com.maple.gameTimer.ui.activity.config
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -9,9 +9,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.appcompat.widget.SwitchCompat
-import com.maple.gametimer.Constant
-import com.maple.gametimer.R
-import com.maple.gametimer.adapter.entity.Game
+import com.maple.gameTimer.constant.Constant
+import com.maple.gameTimer.R
+import com.maple.gameTimer.adapter.entity.Game
 
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER", "UNUSED_PARAMETER")

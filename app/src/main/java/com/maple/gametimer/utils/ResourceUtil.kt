@@ -1,12 +1,13 @@
-package com.maple.gametimer.utils
+package com.maple.gameTimer.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import java.lang.reflect.Field;
+import java.lang.reflect.Field
 
+@SuppressLint("DiscouragedApi")
 object ResourceUtil {
-    private val TAG: String = "ResourceUtil"
-
+    private const val TAG: String = "ResourceUtil"
     fun getAnimId(context: Context, defType: String?): Int {
         return context.resources.getIdentifier(defType, "anim", context.packageName)
     }

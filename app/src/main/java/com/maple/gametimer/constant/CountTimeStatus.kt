@@ -1,4 +1,4 @@
-package com.maple.gametimer.activity.config
+package com.maple.gameTimer.constant
 
 enum class CountTimeStatus {
     INIT,

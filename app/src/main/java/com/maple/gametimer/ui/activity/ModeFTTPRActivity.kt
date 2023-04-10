@@ -1,4 +1,4 @@
-package com.maple.gametimer.activity
+package com.maple.gameTimer.ui.activity
 
 import android.graphics.Color
 import android.media.AudioAttributes
@@ -10,12 +10,12 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.maple.gametimer.Constant
-import com.maple.gametimer.R
-import com.maple.gametimer.activity.config.ModeFTTPRConfig
-import com.maple.gametimer.activity.config.CountTimeStatus
-import com.maple.gametimer.utils.ResourceUtil
-import com.maple.gametimer.view.DonutProgress
+import com.maple.gameTimer.constant.Constant
+import com.maple.gameTimer.R
+import com.maple.gameTimer.ui.activity.config.ModeFTTPRConfig
+import com.maple.gameTimer.constant.CountTimeStatus
+import com.maple.gameTimer.utils.ResourceUtil
+import com.maple.gameTimer.view.DonutProgress
 import java.text.NumberFormat
 import java.util.*
 

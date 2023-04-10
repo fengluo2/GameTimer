@@ -1,4 +1,4 @@
-package com.maple.gametimer
+package com.maple.gameTimer
 
 import org.junit.Test
 

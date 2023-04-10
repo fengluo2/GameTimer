@@ -1,4 +1,4 @@
-package com.maple.gametimer.view
+package com.maple.gameTimer.view
 
 import android.content.Context
 import android.graphics.Canvas

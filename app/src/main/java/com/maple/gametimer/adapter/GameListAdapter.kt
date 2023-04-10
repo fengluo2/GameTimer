@@ -1,4 +1,4 @@
-package com.maple.gametimer.adapter
+package com.maple.gameTimer.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.maple.gametimer.R
-import com.maple.gametimer.adapter.entity.Game
+import com.maple.gameTimer.R
+import com.maple.gameTimer.adapter.entity.Game
 
-class MainActivityListAdapter(
+class GameListAdapter(
     private var context: Context,
     private var data: List<Game>
-) : RecyclerView.Adapter<MainActivityListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var name: TextView = view.findViewById(R.id.mainActivityListItemName)
-        var setting: ImageButton = view.findViewById(R.id.mainActivityListItemSetting)
+        var name: TextView = view.findViewById(R.id.home_fragment_list_item_name)
+        var setting: ImageButton = view.findViewById(R.id.home_fragment_list_item_setting)
     }
 
     interface OnItemClickListener {
@@ -32,7 +32,7 @@ class MainActivityListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_list_activity_main, parent, false)
+            .inflate(R.layout.item_list_fragment_home, parent, false)
         return ViewHolder(view)
     }
 
