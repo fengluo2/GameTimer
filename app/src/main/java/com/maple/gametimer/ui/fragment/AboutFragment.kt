@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.maple.gameTimer.databinding.FragmentAboutBinding
 
-
 class AboutFragment : Fragment() {
     private val TAG: String = "AboutFragment"
 
@@ -35,7 +34,6 @@ class AboutFragment : Fragment() {
 
         return root
     }
-
     private fun init(binding: FragmentAboutBinding) {
         binding.aboutFragmentAppVersion.text = getVersionName()
 
