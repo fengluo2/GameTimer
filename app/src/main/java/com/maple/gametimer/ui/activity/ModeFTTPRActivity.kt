@@ -14,6 +14,7 @@ import com.maple.gameTimer.constant.Constant
 import com.maple.gameTimer.R
 import com.maple.gameTimer.ui.activity.config.ModeFTTPRConfig
 import com.maple.gameTimer.constant.CountTimeStatus
+import com.maple.gameTimer.constant.GameStatus
 import com.maple.gameTimer.utils.ResourceUtil
 import com.maple.gameTimer.view.DonutProgress
 import java.text.NumberFormat
@@ -41,6 +42,7 @@ class ModeFTTPRActivity : AppCompatActivity() {
     private lateinit var endTime: Date
 
     private var countTimeStatus: CountTimeStatus = CountTimeStatus.INIT
+    private var gameStatus: GameStatus = GameStatus.INIT
 
     private lateinit var layout: ConstraintLayout
     private lateinit var donutProgress: DonutProgress
@@ -132,7 +134,6 @@ class ModeFTTPRActivity : AppCompatActivity() {
 
     private fun resetConfig() {
         Log.d(TAG, "resetConfig: ")
-        initConfig()
         startTime = Date()
         pauseTime = Date(0)
     }
@@ -159,6 +160,7 @@ class ModeFTTPRActivity : AppCompatActivity() {
             setPositiveButton("开始") { dialog, which ->
                 startTime = Date()
                 pauseTime = Date(0)
+                gameStatus = GameStatus.RUNNING
                 startCountTime()
             }
             setOnKeyListener { dialog, keyCode, event ->
@@ -202,6 +204,7 @@ class ModeFTTPRActivity : AppCompatActivity() {
             setMessage("游戏时长:" + formatDate(endTime.time - startTime.time))
             setCancelable(false)
             setPositiveButton("再来一局") { dialog, which ->
+                initConfig()
                 resetConfig()
                 startCountTime()
             }
@@ -244,20 +247,23 @@ class ModeFTTPRActivity : AppCompatActivity() {
             }
         }
         countTimeStatus = CountTimeStatus.READY
+        gameStatus = GameStatus.READY
     }
 
     private fun startCountTime() {
         Log.d(TAG, "startCountTime: ")
-        if (countTimeStatus == CountTimeStatus.READY) {
+        if (gameStatus == GameStatus.READY) {
+            gameStatus = GameStatus.RUNNING
             startTime = Date()
             pauseTime = Date(0)
-            countDownTimer.start()
+        }
+        if (countTimeStatus == CountTimeStatus.READY) {
             countTimeStatus = CountTimeStatus.RUNNING
         } else if (countTimeStatus == CountTimeStatus.RUNNING) {
-            initConfig()
             countDownTimer.cancel()
-            countDownTimer.start()
+            initConfig()
         }
+        countDownTimer.start()
         clickNumber += 1
     }
 

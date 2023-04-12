@@ -6,3 +6,8 @@ enum class CountTimeStatus {
     RUNNING,
     PAUSE
 }
+enum class GameStatus{
+    INIT,
+    READY,
+    RUNNING
+}
