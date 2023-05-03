@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
+import android.view.MotionEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +20,8 @@ import com.maple.gameTimer.utils.ResourceUtil
 import com.maple.gameTimer.view.DonutProgress
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayDeque
+import kotlin.collections.HashMap
 
 
 @Suppress("UNUSED_ANONYMOUS_PARAMETER")
@@ -47,14 +50,12 @@ class ModeFTTPRActivity : AppCompatActivity() {
     private lateinit var layout: ConstraintLayout
     private lateinit var donutProgress: DonutProgress
 
+    private val soundMap: HashMap<String, Int> = HashMap()
     private lateinit var soundPool: SoundPool
     private lateinit var countDownTimer: CountDownTimer
 
     private val numberFormat: NumberFormat = NumberFormat.getInstance()
     private val random: Random = Random()
-
-    private val soundMap: HashMap<String, Int> = HashMap()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mode_fttpr)
@@ -81,6 +82,7 @@ class ModeFTTPRActivity : AppCompatActivity() {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             pauseCountTime()
             pauseAlert()
+            return true
         }
         return false
     }
@@ -256,15 +258,24 @@ class ModeFTTPRActivity : AppCompatActivity() {
             gameStatus = GameStatus.RUNNING
             startTime = Date()
             pauseTime = Date(0)
+            countDownTimer.start()
+            clickNumber += 1
+        } else {
+            when (countTimeStatus) {
+                CountTimeStatus.READY -> {
+                    countTimeStatus = CountTimeStatus.RUNNING
+                    countDownTimer.start()
+                    clickNumber += 1
+                }
+                CountTimeStatus.RUNNING -> {
+                    countDownTimer.cancel()
+                    initConfig()
+                    countDownTimer.start()
+                    clickNumber += 1
+                }
+                else -> {}
+            }
         }
-        if (countTimeStatus == CountTimeStatus.READY) {
-            countTimeStatus = CountTimeStatus.RUNNING
-        } else if (countTimeStatus == CountTimeStatus.RUNNING) {
-            countDownTimer.cancel()
-            initConfig()
-        }
-        countDownTimer.start()
-        clickNumber += 1
     }
 
     private fun pauseCountTime() {
@@ -285,7 +296,6 @@ class ModeFTTPRActivity : AppCompatActivity() {
         pauseTime = Date(0)
         countDownTimer.start()
         layout.setBackgroundColor(Color.WHITE)
-        soundMap["count_down_start"]?.let { soundPool.play(it, 1f, 1f, 1, 0, 1f) }
         recoveryMode = true
         countTimeStatus = CountTimeStatus.RUNNING
     }
@@ -350,6 +360,8 @@ class ModeFTTPRActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun inQueue(){}
 
     private fun formatDate(date: Long): String {
         val second: Int = (date / 1000).toInt()
